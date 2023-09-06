@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+    <div class="card-group">
+        
+    {% for item in list%}
+    <div class="card">
+        <img src="https://picsum.photos/id/1{{loop.index -1}}/150/100" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">{{item['name'].capitalize()}}</h5>
+          <p class="card-text"><a class ="btn btn-primary" href="{{url_for('index', prod = loop.index -1)}}">BUY</a></p>
+        </div>
+      </div>
+    {%endfor %}
+    </div>
+    <br>
+   {{cart}}
+   <br>
+   Total price : {{price}}
+</body>
+</html>
