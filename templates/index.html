@@ -5,23 +5,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <style>
+        /* Set the cart column width */
+        .cart-col {
+            flex: 0.01; /* Adjust the width as needed */
+        }
+    </style>
 </head>
 <body>
-    <div class="card-group">
-        
-    {% for item in list%}
-    <div class="card">
-        <img src="https://picsum.photos/id/1{{loop.index -1}}/150/100" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">{{item['name'].capitalize()}}</h5>
-          <p class="card-text"><a class ="btn btn-primary" href="{{url_for('index', prod = loop.index -1)}}">BUY</a></p>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">My Supermarket</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">About Us</a> 
+                    </li>
+                </ul>
+            </div>
         </div>
-      </div>
-    {%endfor %}
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-8">
+                <div class="card-group">
+                    {% for item in market %}
+                        <div class="card">
+                            <img src="{{ url_for('static', filename='images/' + item['name'] + '.jpg') }}" class="card-img-top" alt="Product Image">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ item['name'].capitalize() }}</h5>
+                                <p class="card-text">Price: ${{ item['price'] }}</p>
+                                <p class="card-text"><a class="btn btn-primary" href="{{ url_for('buy_product', product_index=loop.index - 1) }}">BUY</a></p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="row">
+                    <div class="col-6 cart-col">
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-header">
+                                <h5>Cart</h5>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                {% for item in cart %}
+                                    <li class="list-group-item">{{ item['name'] }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-6 cart-col">
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-header">
+                                <h5>Quantity</h5>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                {% for item in cart %}
+                                    <li class="list-group-item">Quantity: {{ item['amount'] }}</li>
+                                {% endfor %}
+                            </ul>
+                            <div class="card-footer">
+                                Total price: ${{ total_sum }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <br>
-   {{cart}}
-   <br>
-   Total price : {{price}}
 </body>
 </html>
